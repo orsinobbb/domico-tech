@@ -123,10 +123,41 @@
         <h2>先不用寫需求書。<br>回答幾個選擇就好。</h2>
         <p>我們會整理成一份可帶走的需求摘要：你的主要阻礙、建議路線、第一個低風險步驟，以及預約前可準備的資料。</p>
       </div>
-      <div class="assessment-placeholder">
-        <span>需求健檢即將在這裡開始</span>
-        <p>在互動功能完成前，你仍然可以直接說明目前最卡的一件事。</p>
-        <a class="button primary" href="mailto:hello@domicotaiwan.com">Email 給豆米口科技 <span>↗</span></a>
+      <div class="assessment-tool">
+        <form id="assessment-form" novalidate>
+          <div class="assessment-status">
+            <span id="assessment-progress" aria-live="polite">第 1 題，共 6 題</span>
+            <span>答案只留在這個瀏覽器</span>
+          </div>
+          <div class="progress-track" aria-hidden="true"><i id="progress-fill"></i></div>
+          <fieldset id="assessment-question">
+            <legend tabindex="-1">現在最想推進什麼？</legend>
+            <div class="answer-options" id="answer-options"></div>
+          </fieldset>
+          <div class="assessment-controls">
+            <button type="button" class="quiet-button" id="previous-question">← 上一題</button>
+            <button type="button" class="button primary" id="next-question">下一題 <span>→</span></button>
+          </div>
+        </form>
+
+        <section id="assessment-result" class="assessment-result" hidden aria-labelledby="result-title">
+          <p class="result-kicker">小米整理好了</p>
+          <h3 id="result-title" tabindex="-1">適合你的下一步</h3>
+          <p id="result-reason"></p>
+          <div class="result-route"><span>建議路線</span><strong id="result-service"></strong></div>
+          <div class="result-columns">
+            <div><span>先做這一步</span><p id="result-first-step"></p></div>
+            <div><span>先準備這些</span><ul id="result-preparation"></ul></div>
+          </div>
+          <label for="summary-text">你的需求摘要</label>
+          <textarea id="summary-text" rows="9" readonly></textarea>
+          <p id="copy-status" class="copy-status" aria-live="polite"></p>
+          <div class="result-actions">
+            <button type="button" class="button primary" id="copy-summary">複製需求摘要</button>
+            <button type="button" class="quiet-button" id="restart-assessment">重新作答</button>
+          </div>
+          <div id="contact-actions" class="contact-actions" aria-label="建議聯絡方式"></div>
+        </section>
       </div>
       <noscript><p>你的瀏覽器目前沒有啟用 JavaScript，仍可寄信到 hello@domicotaiwan.com，我們會先協助你釐清問題。</p></noscript>
     </section>
@@ -144,5 +175,6 @@
     <p>先理解、再動手、讓人真正用得起來。</p>
     <a href="mailto:hello@domicotaiwan.com">hello@domicotaiwan.com</a>
   </footer>
+  <script type="module" src="src/app.js"></script>
 </body>
 </html>

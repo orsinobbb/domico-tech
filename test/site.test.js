@@ -51,3 +51,16 @@ test("first-party assets stay portable across static hosts", async () => {
   assert.ok(urls.every((url) => !url.startsWith("/")));
   await Promise.all(urls.filter((url) => !url.includes("?")).map((url) => access(resolve(root, url))));
 });
+
+test("the needs assessment is semantic, announced and recoverable", async () => {
+  const html = await read("index.html");
+
+  assert.match(html, /<form[^>]+id="assessment-form"/);
+  assert.match(html, /<fieldset[^>]+id="assessment-question"[\s\S]*<legend/);
+  assert.match(html, /id="assessment-progress"[^>]+aria-live="polite"/);
+  assert.match(html, /id="assessment-result"/);
+  assert.match(html, /id="copy-summary"/);
+  assert.match(html, /id="restart-assessment"/);
+  assert.match(html, /<script type="module" src="src\/app\.js"><\/script>/);
+  assert.doesNotMatch(html, /href=""/);
+});
