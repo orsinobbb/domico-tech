@@ -1,0 +1,10 @@
+{
+  "name": "domico-tech",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4174",
+    "test": "node --test"
+  }
+}

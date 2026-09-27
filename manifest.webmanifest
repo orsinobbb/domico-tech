@@ -1,0 +1,10 @@
+{
+  "name": "豆米口科技 DOMICO LABS",
+  "short_name": "DOMICO LABS",
+  "description": "把複雜的科技，變成團隊真的能使用的下一步。",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e7",
+  "theme_color": "#252822"
+}
