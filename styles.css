@@ -62,11 +62,12 @@ h1, h2, h3, p { text-wrap: pretty; }
 .situation-grid a:hover small { color: var(--ink); }
 .roles { background: #e8efea; }
 .role-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-.role-grid article { min-height: 220px; padding: 24px; border: 1.5px solid var(--ink); border-radius: 50px 18px 24px 18px; background: var(--paper-2); box-shadow: 5px 6px 0 var(--ink); }
+.role-grid article { position: relative; min-width: 0; padding: 14px 14px 24px; overflow: hidden; border: 1.5px solid var(--ink); border-radius: 50px 18px 24px 18px; background: var(--paper-2); box-shadow: 5px 6px 0 var(--ink); }
 .role-grid article:nth-child(even) { transform: translateY(18px); }
-.role-grid span { color: var(--blue); font-weight: 900; }
-.role-grid h3 { margin: 55px 0 8px; font-family: "Klee One", cursive; font-size: 1.25rem; }
-.role-grid p { margin: 0; color: var(--muted); font-size: .88rem; }
+.role-grid span { position: absolute; z-index: 2; top: 22px; left: 22px; width: 32px; height: 32px; display: grid; place-items: center; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--yellow); color: var(--ink); font-size: .72rem; font-weight: 900; box-shadow: 2px 2px 0 var(--ink); }
+.role-grid img { width: 100%; aspect-ratio: 1; display: block; border-radius: 38px 12px 20px 12px; object-fit: cover; background: #efe6d5; }
+.role-grid h3 { margin: 18px 10px 8px; font-family: "Klee One", cursive; font-size: 1.25rem; }
+.role-grid p { margin: 0 10px; color: var(--muted); font-size: .88rem; }
 .service-list { border-top: 2px solid var(--ink); }
 .service { padding: 30px 0; display: grid; grid-template-columns: 55px 1.2fr 1fr 130px; gap: 24px; align-items: center; border-bottom: 1.5px solid var(--ink); }
 .service-no { color: var(--coral); font-weight: 900; }

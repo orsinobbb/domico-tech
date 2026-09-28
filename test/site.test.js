@@ -64,3 +64,23 @@ test("the needs assessment is semantic, announced and recoverable", async () => 
   assert.match(html, /<script type="module" src="src\/app\.js"><\/script>/);
   assert.doesNotMatch(html, /href=""/);
 });
+
+test("each Xiaomi mission has its own complete accessible illustration", async () => {
+  const html = await read("index.html");
+  const images = [
+    ["xiaomi-detective.png", "偵探小米拿著放大鏡觀察需求線索"],
+    ["xiaomi-architect.png", "建築師小米整理系統藍圖與積木"],
+    ["xiaomi-ai-copilot.png", "AI 副駕小米和智慧助手一起整理工作流程"],
+    ["xiaomi-captain.png", "隊長小米帶領團隊完成黑客松挑戰"],
+    ["xiaomi-coach.png", "教練小米陪伴學員練習與前進"],
+  ];
+
+  for (const [filename, alt] of images) {
+    const file = resolve(root, "images/roles", filename);
+    await access(file);
+    const bytes = await readFile(file);
+    assert.ok(bytes.byteLength > 10_000, `${filename} must be a real illustration`);
+    assert.equal(html.match(new RegExp(`src="images/roles/${filename}"`, "g"))?.length, 1);
+    assert.match(html, new RegExp(`src="images/roles/${filename}"[^>]+alt="${alt}"`));
+  }
+});
