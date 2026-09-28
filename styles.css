@@ -73,10 +73,12 @@ h1, h2, h3, p { text-wrap: pretty; }
 .service-no { color: var(--coral); font-weight: 900; }
 .service h3 { margin: 4px 0 7px; font-size: clamp(1.35rem, 2vw, 2rem); }
 .service p { margin: 0; color: var(--muted); }
+.service-fit b { display: block; margin-bottom: 3px; color: var(--blue); font-size: .68rem; letter-spacing: .08em; }
 .role-label { color: var(--sage) !important; font-size: .72rem; font-weight: 900; letter-spacing: .08em; }
 .service ul { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: .85rem; }
 .service li + li { margin-top: 8px; }
-.service a { font-weight: 800; text-underline-offset: 5px; }
+.service a { display: grid; gap: 3px; font-weight: 800; text-underline-offset: 5px; }
+.service a b { color: var(--coral); font-size: .68rem; letter-spacing: .08em; text-decoration: none; }
 .method { background: var(--blue); color: white; }
 .method .eyebrow { color: #d5edfb; }
 .method-steps { margin: 55px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); list-style: none; }
@@ -126,6 +128,15 @@ button { font: inherit; }
 .contact-actions a { padding: 13px 16px; display: flex; justify-content: space-between; border: 1.5px solid var(--ink); border-radius: 12px; background: white; text-decoration: none; font-weight: 800; }
 .contact-actions a:first-child { background: var(--yellow); box-shadow: 3px 4px 0 var(--ink); }
 noscript p { grid-column: 1/-1; padding: 15px; background: white; }
+.faq { background: var(--paper-2); }
+.faq-list { max-width: 900px; border-top: 2px solid var(--ink); }
+.faq-list details { border-bottom: 1.5px solid var(--ink); }
+.faq-list summary { position: relative; padding: 24px 52px 24px 2px; cursor: pointer; list-style: none; font: 700 clamp(1.05rem, 2vw, 1.35rem)/1.45 "Klee One", cursive; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; position: absolute; right: 8px; top: 22px; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: var(--ink); font: 900 1.15rem/1 sans-serif; transition: transform .2s ease; }
+.faq-list details[open] summary::after { transform: rotate(45deg); }
+.faq-list details p { max-width: 760px; margin: -7px 52px 24px 2px; color: var(--muted); }
+.faq-cta { margin-top: 32px; }
 .about { background: var(--coral); }
 .about > p:not(.eyebrow) { max-width: 760px; font-size: 1.1rem; }
 .about > a { display: inline-block; margin-top: 20px; font-weight: 900; }

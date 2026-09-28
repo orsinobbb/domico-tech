@@ -84,3 +84,33 @@ test("each Xiaomi mission has its own complete accessible illustration", async (
     assert.match(html, new RegExp(`src="images/roles/${filename}"[^>]+alt="${alt}"`));
   }
 });
+
+test("every service explains fit, deliverables, exclusions and the next step", async () => {
+  const html = await read("index.html");
+  const serviceIds = ["consulting", "software", "ai", "hackathon", "training", "coaching"];
+
+  for (const [index, id] of serviceIds.entries()) {
+    const nextId = serviceIds[index + 1];
+    const start = html.indexOf(`id="service-${id}"`);
+    const end = nextId ? html.indexOf(`id="service-${nextId}"`) : html.indexOf("</div>\n    </section>", start);
+    const service = html.slice(start, end);
+
+    assert.ok(start >= 0, `missing service-${id}`);
+    for (const label of ["適合情境", "交付成果", "不適合情境", "下一步"]) {
+      assert.match(service, new RegExp(label), `service-${id} must explain ${label}`);
+    }
+  }
+});
+
+test("proof stays honest and the release includes FAQ and clear contact paths", async () => {
+  const html = await read("index.html");
+
+  assert.match(html, /本專案公開展示/);
+  assert.match(html, /沒有虛構客戶/);
+  assert.match(html, /<section[^>]+id="faq"/);
+  assert.ok((html.match(/<details>/g) ?? []).length >= 4);
+  assert.match(html, /href="https:\/\/domicotaiwan\.com\/"[^>]+aria-label="前往豆米口文創故事官網/);
+  assert.match(html, /href="mailto:hello@domicotaiwan\.com"[^>]+aria-label="寄信聯絡豆米口科技/);
+  assert.doesNotMatch(html, /客戶數|成功率|滿意度|客戶見證|合作品牌/);
+  assert.doesNotMatch(html, /<img[^>]+(?:logo|客戶|合作品牌)/i);
+});
