@@ -25,11 +25,12 @@ test("the static site exposes every service and mission without JavaScript", asy
 });
 
 test("deployment metadata and fallback page are present", async () => {
-  const [manifestText, robots, sitemap, fallback] = await Promise.all([
+  const [manifestText, robots, sitemap, fallback, cname] = await Promise.all([
     read("manifest.webmanifest"),
     read("robots.txt"),
     read("sitemap.xml"),
     read("404.html"),
+    read("CNAME"),
   ]);
   const manifest = JSON.parse(manifestText);
 
@@ -39,6 +40,7 @@ test("deployment metadata and fallback page are present", async () => {
   assert.match(robots, /Sitemap: https:\/\/tech\.domicotaiwan\.com\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/tech\.domicotaiwan\.com\/<\/loc>/);
   assert.match(fallback, /回到豆米口科技首頁/);
+  assert.equal(cname.trim(), "tech.domicotaiwan.com");
 });
 
 test("first-party assets stay portable across static hosts", async () => {

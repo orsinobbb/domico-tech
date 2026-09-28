@@ -35,7 +35,7 @@ Email 預設為 `hello@domicotaiwan.com`，即使沒有 JavaScript 也能使用�
 
 ## 發布
 
-正式網址規劃為 <https://tech.domicotaiwan.com/>，使用 GitHub Pages 發布。網站全部使用相對資源路徑，可在自訂網域根目錄運作；DNS 與 Pages 設定完成後再加入 `CNAME`，避免尚未生效的網址被誤認為已上線。
+正式網址為 <https://tech.domicotaiwan.com/>，使用 GitHub Pages 發布。網站全部使用相對資源路徑，可在自訂網域根目錄運作；Cloudflare DNS 使用 `tech` CNAME 指向 `orsinobbb.github.io`，並由根目錄的 `CNAME` 固定 Pages 自訂網域。
 
 發布前應確認：
 
