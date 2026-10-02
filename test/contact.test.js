@@ -18,9 +18,10 @@ test("default config exposes email only until public links are verified", () => 
   });
 });
 
-test("low-confidence questions prefer LINE while clear projects prefer booking", () => {
-  assert.equal(resolveContactRoute({ confidence: "low" }, allChannels), "line");
-  assert.equal(resolveContactRoute({ confidence: "high" }, allChannels), "booking");
+test("nurture leads prefer LINE while qualified and priority projects prefer booking", () => {
+  assert.equal(resolveContactRoute({ leadTier: "nurture" }, allChannels), "line");
+  assert.equal(resolveContactRoute({ leadTier: "qualified" }, allChannels), "booking");
+  assert.equal(resolveContactRoute({ leadTier: "priority" }, allChannels), "booking");
 });
 
 test("attachments and formal proposals always prefer email", () => {
@@ -47,7 +48,14 @@ test("mailto preserves Chinese, line breaks, hash and ampersand exactly", () => 
 
 test("available actions put the recommended channel first without hiding alternatives", () => {
   assert.deepEqual(
-    getAvailableContactActions({ confidence: "high" }, allChannels).map(({ id }) => id),
+    getAvailableContactActions({ leadTier: "priority" }, allChannels).map(({ id }) => id),
     ["booking", "line", "email"],
   );
+});
+
+test("qualified projects without a safe booking or LINE URL fall back to email", () => {
+  const unsafe = { email: "hello@domicotaiwan.com", lineUrl: "http://lin.ee/demo", bookingUrl: "javascript:alert(1)" };
+
+  assert.equal(resolveContactRoute({ leadTier: "qualified" }, unsafe), "email");
+  assert.deepEqual(getAvailableContactActions({ leadTier: "qualified" }, unsafe).map(({ id }) => id), ["email"]);
 });

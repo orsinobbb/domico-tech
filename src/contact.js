@@ -16,7 +16,7 @@ export function buildMailto(summary, serviceId, email) {
 
 export function resolveContactRoute(result, config) {
   if (result?.needsAttachments || result?.contactIntent === "formal") return "email";
-  if (result?.confidence === "high" && safeHttps(config?.bookingUrl)) return "booking";
+  if (["priority", "qualified"].includes(result?.leadTier) && safeHttps(config?.bookingUrl)) return "booking";
   if (safeHttps(config?.lineUrl)) return "line";
   return "email";
 }
