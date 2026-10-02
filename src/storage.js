@@ -1,10 +1,10 @@
-import { QUESTIONS, answerQuestion, createAssessmentState } from "./assessment.js";
+import { ASSESSMENT_VERSION, QUESTIONS, answerQuestion, createAssessmentState } from "./assessment.js";
 
-export const ASSESSMENT_STORAGE_KEY = "domico-labs-assessment-v1";
+export const ASSESSMENT_STORAGE_KEY = "domico-labs-assessment-v2";
 
 function sanitizeState(value) {
   let state = createAssessmentState();
-  if (value?.version !== 1 || !value.answers || typeof value.answers !== "object") return state;
+  if (value?.version !== ASSESSMENT_VERSION || !value.answers || typeof value.answers !== "object") return state;
   for (const { id } of QUESTIONS) state = answerQuestion(state, id, value.answers[id]);
   return state;
 }
