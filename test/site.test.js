@@ -172,3 +172,33 @@ test("the browser controller delegates audience choices and never injects query 
   assert.doesNotMatch(app, /headline\.innerHTML|heroLead\.innerHTML/);
   assert.match(app, /textarea\.focus\(\)[\s\S]*textarea\.select\(\)/);
 });
+
+test("the conversion components have responsive, focus-visible and reduced-motion styles", async () => {
+  const css = await read("styles.css");
+
+  for (const selector of [".audience-picker", ".audience-card", ".audience-card.is-selected", ".offer-ladder", ".offer-steps", ".task-card", "#result-related-proofs"]) {
+    assert.match(css, new RegExp(selector.replaceAll(".", "\\.")));
+  }
+  assert.match(css, /\.audience-card:focus-visible/);
+  assert.match(css, /\.offer-steps a:focus-visible/);
+  assert.match(css, /#result-related-proofs a:focus-visible/);
+  assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.audience-picker[\s\S]*\.offer-steps[\s\S]*\.task-card/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test("the maintenance guide documents privacy-safe funnel operations", async () => {
+  const readme = await read("README.md");
+
+  for (const id of ["audience", "process", "frequency", "impact", "tools", "role", "timeline"]) {
+    assert.match(readme, new RegExp(`\\b${id}\\b`));
+  }
+  for (const name of ["audience_selected", "assessment_started", "assessment_completed", "task_card_copied", "proof_opened", "contact_selected"]) {
+    assert.match(readme, new RegExp(name));
+  }
+  for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]) {
+    assert.match(readme, new RegExp(key));
+  }
+  assert.match(readme, /不會傳送到第三方|不載入第三方分析/);
+  assert.match(readme, /不虛構客戶|內容誠信/);
+  assert.match(readme, /LINE[\s\S]*Google 預約[\s\S]*HTTPS[\s\S]*測試/);
+});
