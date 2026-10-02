@@ -154,6 +154,21 @@ test("the result contains a semantic task card and short live status regions", a
   assert.match(html, /id="result-pain"/);
   assert.match(html, /id="result-quick-win"/);
   assert.match(html, /id="result-related-proofs"/);
+  assert.match(html, /id="edit-assessment"/);
   assert.doesNotMatch(html, /id="task-card"[^>]+aria-live/);
   assert.match(html, /id="copy-status"[^>]+aria-live="polite"/);
+});
+
+test("the browser controller delegates audience choices and never injects query text as HTML", async () => {
+  const app = await read("src/app.js");
+
+  assert.match(app, /normalizeAudienceId/);
+  assert.match(app, /#audience-picker/);
+  assert.match(app, /addEventListener\("click"/);
+  assert.match(app, /closest\("\[data-audience-id\]"\)/);
+  assert.match(app, /function applyAudienceContent\(audienceId\)[\s\S]*audienceId === "general"[\s\S]*return/);
+  assert.match(app, /headline\.textContent = content\.headline/);
+  assert.match(app, /heroLead\.textContent = content\.value/);
+  assert.doesNotMatch(app, /headline\.innerHTML|heroLead\.innerHTML/);
+  assert.match(app, /textarea\.focus\(\)[\s\S]*textarea\.select\(\)/);
 });
