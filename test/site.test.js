@@ -116,3 +116,44 @@ test("proof stays honest and the release includes FAQ and clear contact paths", 
   assert.doesNotMatch(html, /客戶數|成功率|滿意度|客戶見證|合作品牌/);
   assert.doesNotMatch(html, /<img[^>]+(?:logo|客戶|合作品牌)/i);
 });
+
+test("the homepage exposes two audience paths and one diagnostic CTA without JavaScript", async () => {
+  const html = await read("index.html");
+
+  assert.match(html, /id="audience-picker"/);
+  assert.match(html, /data-audience-id="sme"[^>]+href="\?audience=sme#assessment"/);
+  assert.match(html, /data-audience-id="brand"[^>]+href="\?audience=brand#assessment"/);
+  assert.match(html, /10–200 人中小企業/);
+  assert.match(html, /品牌、行銷與文創團隊/);
+  assert.ok((html.match(/3 分鐘小米 AI 任務診斷/g) ?? []).length >= 2);
+  assert.match(html, /回答只留在這個瀏覽器/);
+  assert.match(html, /mailto:hello@domicotaiwan\.com/);
+});
+
+test("the conversion journey presents proof, diagnosis and five bounded offers in order", async () => {
+  const html = await read("index.html");
+  const sections = ["situations", "proof-library", "assessment", "offer-ladder", "method", "services"];
+
+  for (const [index, id] of sections.entries()) {
+    const position = html.indexOf(`id="${id}"`);
+    assert.ok(position >= 0, `missing ${id}`);
+    if (index > 0) assert.ok(position > html.indexOf(`id="${sections[index - 1]}"`), `${id} must follow ${sections[index - 1]}`);
+  }
+  for (const id of ["diagnosis", "reading", "workshop", "pilot", "implementation"]) {
+    assert.match(html, new RegExp(`data-offer-id="${id}"`));
+  }
+  for (const id of ["domico-site", "private-assessment", "problem-map"]) {
+    assert.match(html, new RegExp(`data-proof-id="${id}"`));
+  }
+});
+
+test("the result contains a semantic task card and short live status regions", async () => {
+  const html = await read("index.html");
+
+  assert.match(html, /id="task-card"/);
+  assert.match(html, /id="result-pain"/);
+  assert.match(html, /id="result-quick-win"/);
+  assert.match(html, /id="result-related-proofs"/);
+  assert.doesNotMatch(html, /id="task-card"[^>]+aria-live/);
+  assert.match(html, /id="copy-status"[^>]+aria-live="polite"/);
+});
